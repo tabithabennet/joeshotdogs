@@ -1,8 +1,0 @@
-let menu = {
-    hotdog: 4.00,
-    fries: 3.50,
-    soda: 1.50,
-    sauerkraut: 1.00
-};
-
-console.log(menu);

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joe's Hotdogs Order System</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        #menu, #cart { margin: 20px auto; width: 300px; border: 1px solid #000; padding: 10px; }
+        input, button { margin: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Joe's Hotdogs</h1>
+    <div id="menu"></div>
+    <input type="text" id="itemInput" placeholder="Enter item name">
+    <button onclick="addToCart()">Add to Cart</button>
+    <div id="cart"></div>
+    <button onclick="checkout()">Checkout</button>
+
+    <script>
+        // Part 1: Associative array of menu items and prices
+        let menu = {
+            hotdog: 4.00,
+            fries: 3.50,
+            soda: 1.50,
+            sauerkraut: 1.00
+        };
+        
+        // Part 3: Associative array to track quantities
+        let cart = { hotdog: 0, fries: 0, soda: 0, sauerkraut: 0 };
+        
+        // Part 2: Display the menu
+        function displayMenu() {
+            let menuDiv = document.getElementById("menu");
+            menuDiv.innerHTML = "<h3>Menu</h3>";
+            for (let item in menu) {
+                menuDiv.innerHTML += `${item.charAt(0).toUpperCase() + item.slice(1)}: $${menu[item]}<br>`;
+            }
+        }
+        displayMenu();
+        
+        // Part 4: Add item to cart
+        function addToCart() {
+            let item = document.getElementById("itemInput").value.toLowerCase().trim();
+            if (menu[item] !== undefined) {
+                cart[item]++;
+                displayCart();
+            } else {
+                alert("Invalid item. Please enter a valid menu item.");
+            }
+            document.getElementById("itemInput").value = "";
+        }
+        
+        // Display cart
+        function displayCart() {
+            let cartDiv = document.getElementById("cart");
+            cartDiv.innerHTML = "<h3>Cart</h3>";
+            for (let item in cart) {
+                if (cart[item] > 0) {
+                    cartDiv.innerHTML += `${item.charAt(0).toUpperCase() + item.slice(1)}: ${cart[item]}<br>`;
+                }
+            }
+        }
+        
+        // Part 5: Checkout process
+        function checkout() {
+            let total = 0;
+            let summary = "Order Summary:\n";
+            for (let item in cart) {
+                if (cart[item] > 0) {
+                    let itemTotal = cart[item] * menu[item];
+                    summary += `${item.charAt(0).toUpperCase() + item.slice(1)}: ${cart[item]} x $${menu[item]} = $${itemTotal.toFixed(2)}\n`;
+                    total += itemTotal;
+                }
+            }
+            summary += `Total: $${total.toFixed(2)}`;
+            alert(summary);
+            
+            // Reset cart
+            for (let item in cart) {
+                cart[item] = 0;
+            }
+            displayCart();
+        }
+    </script>
+</body>
+</html>
